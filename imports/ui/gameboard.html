@@ -1,0 +1,91 @@
+<template name="gameboard">
+  {{#if gameIsNotReady}}
+    <p>Your game will start soon! <br/>
+    Waiting for <strong>{{remainingPlayers}}</strong> more player(s)!</p>
+  {{else}}
+    <h3 class="ui center aligned header">Turn {{turnCount}}</h3>
+    <img class="ui fluid image" src="images/snake-and-ladder-gameboard.jpg">
+    <div class="ui divider"></div>
+    <div class="ui two column relaxed grid">
+      <div class="column">
+        <table class="ui olive table">
+          <thead>
+            <tr class="center aligned">
+              <th>Turn</th>
+              <th>Name</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+          {{#each turn in turns}}
+            <tr class="center aligned">
+              <td>
+                {{#if isTurn turn}}
+                  <i class="olive large chevron circle right icon"></i>
+                {{else}}
+                  &nbsp;
+                {{/if}}
+              </td>
+              <td>
+                {{player turn}}
+              </td>
+              <td>
+                {{score turn}}
+              </td>
+            </tr>
+          {{/each}}
+          </tbody>
+        </table>
+      </div>
+      <div class="column">
+        <div class="ui olive segment">
+          <div class="ui olive big right ribbon label">Last five turns</div>
+          <div class="ui large bulleted list">
+            {{#each move in moves}}
+              {{#if isSnake move}}
+                <div class="item">
+                  <div class="content">
+                    {{move.player}} rolled a {{move.diceNumber}} and met a Snake!
+                  </div>
+                </div>
+              {{else}}
+                {{#if isLadder move}}
+                  <div class="item">
+                    <div class="content">
+                      {{move.player}} rolled a {{move.diceNumber}} and met a Ladder!
+                    </div>
+                  </div>
+                {{else}}
+                  <div class="item">
+                    <div class="content">
+                      {{move.player}} rolled a {{move.diceNumber}}
+                    </div>
+                  </div>
+                {{/if}}
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <br/>
+
+    {{#if hasWinner}}
+      <h4>We have a winner. Game Over!</h4>
+      <button class="exitgame ui olive right labeled icon button">
+        <i class="sign out icon"></i>
+        Exit Game
+      </button>
+    {{else}}
+      {{#if canRollDice}}
+        {{> rolldice gameId = gameId}}
+      {{else}}
+        <button class="ui olive disabled button">
+          Roll the dice!
+        </button>
+      {{/if}}
+    {{/if}}  
+  {{/if}}
+  <div class="ui divider"></div>
+</template>

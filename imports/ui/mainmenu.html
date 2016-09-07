@@ -1,0 +1,24 @@
+<template name="mainmenu">
+  {{#if inAGame}}
+    <h3 class="ui center aligned header">Your Ongoing Game</h3>
+    {{> gameboard game=ongoingGame}}
+  {{else}}
+    {{#if hasWaitingGame}}
+      <h3>Waiting games</h3>
+      <p>
+        {{waitingCount}} waiting game(s). Choose any one to join!
+      </p>
+      <div class="ui cards">
+        {{#each waitingGames}}
+          {{> waitinggame}}
+        {{/each}}
+      </div>
+    {{else}}
+      <p>There is no waiting game at the moment.</p>
+      <button class="creategame ui right labeled icon olive button">
+        <i class="game icon"></i>
+        Create a game
+      </button>
+    {{/if}}
+  {{/if}}
+</template>
